@@ -17,12 +17,13 @@
     <button onclick="loadData()">Adatok betöltése</button>
     <button onclick="showAddProductForm()">Termék hozzáadása</button>
     <button onclick="listProducts()">Termékek listázása</button>
+    <button onclick="listLowQuantityProducts()">Kifogyóban lévő termékek</button>
+
 
     <script>
-
     function loadData() {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "load_data.php", true);
+        xhr.open("GET", "upload_data.php", true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 document.getElementById("output").innerHTML = xhr.responseText;
@@ -33,7 +34,7 @@
         };
         xhr.send();
     }
-    
+
     function showAddProductForm() {
         var formHtml = `
             <h2>Termék hozzáadása</h2>
@@ -43,7 +44,7 @@
                 Ár: <input type="number" name="price" min="0" step="100"><br><br>
                 Mennyiség: <input type="number" name="quantity" min="1"><br><br>
                 Minimum mennyiség: <input type="number" name="min_quantity" min="1"><br><br>
-                Raktár azonosító: <input type="number" name="id_store" min="1"><br><br>
+                Raktár azonosító: <input type="number" name="id_store" min="1" max="5"><br><br>
                 Sor azonosító: <input type="number" name="id_row" min="1"><br><br>
                 Oszlop azonosító: <input type="number" name="id_column" min="1"><br><br>
                 Polc azonosító: <input type="number" name="id_shelf" min="1"><br><br>
@@ -51,6 +52,17 @@
             </form>
         `;
         document.getElementById("output").innerHTML = formHtml;
+    }
+
+    function listLowQuantityProducts() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "low_quantity_products.php", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("output").innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
     }
 
     function addProduct() {
